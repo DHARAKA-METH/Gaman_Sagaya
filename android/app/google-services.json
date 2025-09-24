@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "420729488538",
+    "firebase_url": "https://bustrackerapp-9828e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "bustrackerapp-9828e",
+    "storage_bucket": "bustrackerapp-9828e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420729488538:android:9a1d066234a9e11823cb23",
+        "android_client_info": {
+          "package_name": "com.example.bustrackerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIZpTUk2UuSe_gFBWkrIe9thKb6MoAT6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

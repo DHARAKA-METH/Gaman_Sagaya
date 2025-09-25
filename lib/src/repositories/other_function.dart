@@ -1,3 +1,5 @@
+import 'package:bus_tracker_app/src/services/firestore_service.dart';
+
 List<Map<String, dynamic>> findRoutesWithUserDestination(
   List allRoutes,
   String from,
@@ -45,4 +47,17 @@ List<Map<String, dynamic>> findRoutesWithUserDestination(
   }
 
   return results;
+}
+
+Future<List<Map<String, dynamic>>> getBuses(
+  List<Map<String, dynamic>> destinationWithId,
+) async {
+  try {
+    // Call the function
+    List<Map<String, dynamic>> buses = await fetchBusses(destinationWithId);
+    return buses;
+  } catch (e) {
+    print("Error fetching buses: $e");
+    throw e;
+  }
 }

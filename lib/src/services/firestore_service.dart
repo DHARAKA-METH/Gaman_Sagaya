@@ -1,18 +1,20 @@
 import 'package:bus_tracker_app/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 Future<List<Map<String, dynamic>>> fetchAllRoutes(
   String from,
   String destination,
 ) async {
-  // Initialize Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   List<Map<String, dynamic>> matchingRoutes = [];
 
   try {
+    // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    // Fetch all routes
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('routes')
         .get();
@@ -30,18 +32,64 @@ Future<List<Map<String, dynamic>>> fetchAllRoutes(
             .toList();
 
         // Check if both 'from' and 'destination' exist in stops
-        if (stopNames.contains(from.toLowerCase()) &&
-            stopNames.contains(destination.toLowerCase())) {
+        if (stopNames.contains(from.toLowerCase().trim()) &&
+            stopNames.contains(destination.toLowerCase().trim())) {
           // Add entire route to matchingRoutes
           matchingRoutes.add(data);
         }
       }
     }
-
-    return matchingRoutes;
   } catch (e) {
-    print('Error fetching routes: $e');
+    print(' Error fetching routes: $e');
   }
 
   return matchingRoutes;
+}
+
+Future<List<Map<String, dynamic>>> fetchBusses(
+  List<Map<String, dynamic>> destinationWithId,
+) async {
+  List<Map<String, dynamic>> matchingBuses = [];
+
+  try {
+    // Fetch all buses
+    QuerySnapshot busSnapshot = await FirebaseFirestore.instance
+        .collection('buses')
+        .get();
+
+    List<Map<String, dynamic>> allBuses = busSnapshot.docs
+        .map((doc) => {...doc.data() as Map<String, dynamic>, "id": doc.id})
+        .toList();
+
+    for (var filterItem in destinationWithId) {
+      String routeIdFilter = filterItem['routeId']
+          .toString()
+          .trim()
+          .toLowerCase();
+      String destinationFilter = filterItem['destination']
+          .toString()
+          .trim()
+          .toLowerCase();
+
+      // Filter buses
+      List<Map<String, dynamic>> filtered = allBuses.where((bus) {
+        String busRouteId = bus['routeId'].toString().trim().toLowerCase();
+        String busDestination = bus['currentDestination']
+            .toString()
+            .trim()
+            .toLowerCase();
+        String busStatus = bus['status'].toString().trim().toLowerCase();
+
+        return busStatus == 'online' &&
+            busRouteId == routeIdFilter &&
+            busDestination == destinationFilter;
+      }).toList();
+
+      matchingBuses.addAll(filtered);
+    }
+  } catch (e) {
+    print(" Error fetching buses: $e");
+  }
+
+  return matchingBuses;
 }

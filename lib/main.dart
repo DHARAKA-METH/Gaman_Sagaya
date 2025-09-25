@@ -1,5 +1,4 @@
 import 'package:bus_tracker_app/src/repositories/main_repository.dart';
-import 'package:bus_tracker_app/src/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_tracker_app/pages/home_page.dart';
 

@@ -1,6 +1,7 @@
 import 'package:bus_tracker_app/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 Future<List<Map<String, dynamic>>> fetchAllRoutes(
   String from,
@@ -92,4 +93,25 @@ Future<List<Map<String, dynamic>>> fetchBusses(
   }
 
   return matchingBuses;
+}
+
+Future<Map<String, dynamic>?> getBusCurrentLocation(String busId) async {
+  try {
+    // Reference to the bus in Realtime Database
+    final dbRef = FirebaseDatabase.instance.ref('BusLiveLocations/$busId');
+
+    final snapshot = await dbRef.get();
+
+    if (snapshot.exists) {
+      final data = snapshot.value as Map<dynamic, dynamic>;
+      // Convert keys to String and return
+      return data.map((key, value) => MapEntry(key.toString(), value));
+    } else {
+      print('No live location found for busId $busId');
+      return null;
+    }
+  } catch (e) {
+    print('Error fetching live location: $e');
+    return null;
+  }
 }

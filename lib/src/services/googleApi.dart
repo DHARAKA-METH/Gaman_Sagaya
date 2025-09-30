@@ -9,6 +9,10 @@ Future<Map<String, dynamic>?> GetBusesETA(
   double destLat,
   double destLng,
 ) async {
+  print(
+    "origins -${originLat} - ${originLng}  ----  desti ${destLat} , ${destLng}",
+  );
+
   final url = Uri.parse(
     'https://maps.googleapis.com/maps/api/distancematrix/json'
     '?origins=$originLat,$originLng'

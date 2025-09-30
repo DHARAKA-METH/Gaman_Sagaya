@@ -5,6 +5,7 @@ Future<void> mainFunction() async {
   String from = "kottawa";
   String destination = "maharagama";
   String apiKey = "YOUR_GOOGLE_API_KEY";
+  // String apiKey = "AIzaSyCRmgwCb_A9tft0SfuP_InGJ_9a8nAD0_Q";
 
   // Fetch all routes (async)
   List<Map<String, dynamic>> allRoutes = await fetchAllRoutes(
@@ -26,8 +27,8 @@ Future<void> mainFunction() async {
   List<Map<String, dynamic>> etaResults = await calculateETAS(
     apiKey,
     getBusses,
-    6.1036, // Example user latitude
-    80.3171, // Example user longitude
+    6.8408, // Example user latitude
+    79.9639, // Example user longitude
   );
 
   if (allRoutes.isNotEmpty) {

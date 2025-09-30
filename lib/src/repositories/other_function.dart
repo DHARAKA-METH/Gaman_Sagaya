@@ -1,7 +1,5 @@
 import 'package:bus_tracker_app/src/services/firestore_service.dart';
 import 'package:bus_tracker_app/src/services/googleApi.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 List<Map<String, dynamic>> findRoutesWithUserDestination(
   List allRoutes,
@@ -75,12 +73,19 @@ Future<List<Map<String, dynamic>>> calculateETAS(
   List<Map<String, dynamic>> busEtaList = [];
 
   for (var busId in busIds) {
+    double buslatitude = 0.0;
+    double buslongitude = 0.0;
     // bus live location
     Map<String, dynamic>? busLocation = await getBusCurrentLocation(busId);
-
-    //  get latitude & longitude of the bus
-    double buslatitude = busLocation?[busId]!['latitude']!;
-    double buslongitude = busLocation?[busId]!['longitude']!;
+    if (busLocation != null) {
+      //  get latitude & longitude of the bus
+      buslatitude = double.tryParse(busLocation['latitude'].toString()) ?? 0.0;
+      buslongitude =
+          double.tryParse(busLocation['longitude'].toString()) ?? 0.0;
+      print("Bus $busId location: $buslatitude, $buslongitude");
+    } else {
+      print("Bus location not found for $busId");
+    }
 
     /* here missed bus is miss or not to user current location     
 https://chatgpt.com/c/68d4fc6c-220c-8323-84ef-31daca2b58f2 ------------------------------------------------------------------------------------- */

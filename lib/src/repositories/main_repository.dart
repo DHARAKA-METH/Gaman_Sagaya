@@ -1,17 +1,25 @@
 import 'package:bus_tracker_app/src/repositories/other_function.dart';
 import 'package:bus_tracker_app/src/services/firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> mainFunction() async {
   String from = "kottawa";
   String destination = "maharagama";
   String apiKey = "YOUR_GOOGLE_API_KEY";
-  // String apiKey = "AIzaSyCRmgwCb_A9tft0SfuP_InGJ_9a8nAD0_Q";
+  //String apiKey = "AIzaSyCRmgwCb_A9tft0SfuP_InGJ_9a8nAD0_Q";
 
   // Fetch all routes (async)
   List<Map<String, dynamic>> allRoutes = await fetchAllRoutes(
     from,
     destination,
   );
+
+  // get cordinate for user From location by searching array or call google api
+
+  GeoPoint? userCoords = getCoordinatesByStopName(from, allRoutes);
+  if (userCoords == null) {
+    throw Exception("User location coordinates not found!");
+  }
 
   // Find routes with user destination
   List<Map<String, dynamic>> destinationwithid = findRoutesWithUserDestination(
@@ -27,12 +35,15 @@ Future<void> mainFunction() async {
   List<Map<String, dynamic>> etaResults = await calculateETAS(
     apiKey,
     getBusses,
-    6.8408, // Example user latitude
-    79.9639, // Example user longitude
+    userCoords.latitude,
+    userCoords.longitude,
   );
 
   if (allRoutes.isNotEmpty) {
-    //  print('Route ID: ${allRoutes}');
+    //print('Route ID: ${allRoutes}');
+    // print('user cords : ${userCoords.latitude} - ${userCoords.longitude}');
+    print('');
+    print('');
     print('-------------- destinationwithid -----------');
     print(destinationwithid);
     print('----------  getBusses---------------');

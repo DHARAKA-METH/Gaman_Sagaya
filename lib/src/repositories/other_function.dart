@@ -1,5 +1,6 @@
 import 'package:bus_tracker_app/src/services/firestore_service.dart';
 import 'package:bus_tracker_app/src/services/googleApi.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 List<Map<String, dynamic>> findRoutesWithUserDestination(
   List allRoutes,
@@ -107,4 +108,20 @@ https://chatgpt.com/c/68d4fc6c-220c-8323-84ef-31daca2b58f2 ---------------------
   ;
 
   return busEtaList;
+}
+
+GeoPoint? getCoordinatesByStopName(
+  String cityName,
+  List<Map<String, dynamic>> routes,
+) {
+  for (var route in routes) {
+    List stops = route['stops'] ?? [];
+    for (var stop in stops) {
+      if (stop['name'].toString().toLowerCase() ==
+          cityName.toString().toLowerCase()) {
+        return stop['coordinates'] as GeoPoint;
+      }
+    }
+  }
+  return null;
 }

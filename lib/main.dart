@@ -1,6 +1,6 @@
 import 'package:bus_tracker_app/src/repositories/main_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:bus_tracker_app/pages/home_page.dart';
+import 'package:bus_tracker_app/src/ui/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

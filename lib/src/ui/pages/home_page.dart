@@ -1,3 +1,4 @@
+import 'package:bus_tracker_app/src/ui/pages/map_page.dart';
 import 'package:flutter/material.dart';
 
 class BusApp extends StatelessWidget {
@@ -84,9 +85,21 @@ class _BusHomeScreenState extends State<BusHomeScreen> {
                     onPressed: searchBuses,
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                     child: const Text("Find Buses"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MapPage(),
+                        ),
+                      );
+                    },
+                    child: const Text("open Map Page"),
                   ),
                 ],
               ),
@@ -100,13 +113,20 @@ class _BusHomeScreenState extends State<BusHomeScreen> {
                       itemBuilder: (context, index) {
                         return Card(
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           child: ListTile(
-                            leading: const Icon(Icons.directions_bus,
-                                color: Colors.blue),
+                            leading: const Icon(
+                              Icons.directions_bus,
+                              color: Colors.blue,
+                            ),
                             title: Text(buses[index]["name"]!),
                             subtitle: Text("ETA: ${buses[index]["eta"]}"),
-                            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                            ),
                           ),
                         );
                       },

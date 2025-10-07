@@ -1,9 +1,11 @@
 import 'package:bus_tracker_app/src/repositories/main_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_tracker_app/src/ui/pages/home_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await dotenv.load(fileName: ".env");
 
   // Initialize Firebase
 
